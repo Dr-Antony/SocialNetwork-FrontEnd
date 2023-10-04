@@ -5,14 +5,19 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from "react-redux";
+import {  logout, userIsAuth } from "../../redux/slices/userSlice";
 
 
 
 
-const Navigation = (props) => {
-
+const NavigationTop = (props) => {
+    const [auth,setAuth] = useState(false);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const isAuth = useSelector(userIsAuth)
 
 
     const [show, setShow] = useState(false)
@@ -23,24 +28,27 @@ const Navigation = (props) => {
     const handleShow = ()=>{
         setShow(true)
     }
-    const [userAuth, setUserAuth] = useState(false)
+    const onClickLogout = ()=>{
+        dispatch(logout())
+        window.localStorage.removeItem('token')
+    }
     return (
         <div>
             <Navbar bg="primary" data-bs-theme="dark">
                 <Container>
                     <Navbar.Brand>SocialNetwork</Navbar.Brand>
                     {
-                        userAuth ?
+                        isAuth ?
                             <Nav className="me-auto">
-                                <Nav.Link><Link to="/">Home</Link></Nav.Link>
-                                <Nav.Link><Link to="/users">Users</Link></Nav.Link>
-                                <Nav.Link><Link to="/messages">Messages</Link></Nav.Link>
+                                <Nav.Link><Link to="/"><Button>Home</Button></Link></Nav.Link>
+                                <Nav.Link><Link to="/users"><Button>Users</Button></Link></Nav.Link>
+                                <Nav.Link><Link to="/messages"><Button>Messages</Button></Link></Nav.Link>
                             </Nav>
                             :
                             null
                     }
                     {
-                        !userAuth ?
+                        !isAuth ?
                             <Nav>
                                 {/* <Nav.Link><Button onClick={handleShow}>Login-1</Button></Nav.Link> */}
                                 <Nav.Link><Link to="/login"><Button>Login</Button></Link></Nav.Link>
@@ -48,7 +56,7 @@ const Navigation = (props) => {
                             </Nav>
                             :
                             <Nav>
-                                <Nav.Link><Link to="/"><Button>Logout</Button></Link></Nav.Link>
+                                <Nav.Link><Link to="/login"><Button onClick={onClickLogout}>Logout</Button></Link></Nav.Link>
                             </Nav>
                     }
                 </Container>
@@ -80,4 +88,4 @@ const Navigation = (props) => {
     )
 }
 
-export default Navigation;
+export default NavigationTop;

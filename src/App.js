@@ -5,14 +5,22 @@ import { Route, Routes } from "react-router-dom";
 
 
 //Компоненты
-import Navigation from "./Components/NavBar/Navbar";
+import Navigation from "./Components/NavBar/NavbarTop";
 import HomePage from "./Components/Home/Home";
 import Users from "./Components/Users/Users";
 import Messages from "./Components/Messages/Messages";
 import Login from "./Components/Login/Login"
 import Registration from "./Components/Register/Registration";
+import Footer from "./Components/Footer/Footer";
+import { fetchAuthMe } from "./redux/slices/userSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 //Компоненты
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(fetchAuthMe())
+  },[])
   return (
     <div className="App">
       <Navigation />
@@ -23,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }
