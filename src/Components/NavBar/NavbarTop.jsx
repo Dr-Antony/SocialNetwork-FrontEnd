@@ -6,31 +6,44 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 import { Link, useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from "react-redux";
-import {  logout, userIsAuth } from "../../redux/slices/userSlice";
+import { fetchAuthMe, logout, userIsAuth } from "../../redux/slices/userSlice";
 
 
 
 
 const NavigationTop = (props) => {
-    const [auth,setAuth] = useState(false);
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuth = useSelector(userIsAuth)
+    const [auth, setAuth] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+
+    const isAuth = useSelector(userIsAuth);
+    const { data } = useSelector(state => state.auth);
+    // const myId = useSelector(state=>state.auth.data._id)
 
     const [show, setShow] = useState(false)
+    const [userId, setUserId] = useState(null)
 
-    const handleClose = ()=> {
+    const handleClose = () => {
         setShow(false)
     }
-    const handleShow = ()=>{
+    const handleShow = () => {
         setShow(true)
     }
-    const onClickLogout = ()=>{
+    const onClickLogout = () => {
         dispatch(logout())
         window.localStorage.removeItem('token')
+    }
+    const toHome = async () => {
+        if(window.localStorage.getItem('token')){
+            return navigate('/')
+        }else{
+            return navigate('/login')
+        }
+        // debugger
+        // await dispatch(fetchAuthMe())
+        // await navigate(`/user/${data._id}`)
     }
     return (
         <div>
@@ -40,7 +53,7 @@ const NavigationTop = (props) => {
                     {
                         isAuth ?
                             <Nav className="me-auto">
-                                <Nav.Link><Link to="/"><Button>Home</Button></Link></Nav.Link>
+                                <Nav.Link><Button onClick={toHome}>Home</Button></Nav.Link>
                                 <Nav.Link><Link to="/users"><Button>Users</Button></Link></Nav.Link>
                                 <Nav.Link><Link to="/messages"><Button>Messages</Button></Link></Nav.Link>
                             </Nav>

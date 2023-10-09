@@ -18,20 +18,21 @@ import { useDispatch } from "react-redux";
 //Компоненты
 function App() {
   const dispatch = useDispatch()
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchAuthMe())
-  },[])
+  }, [])
   return (
     <div className="App">
       <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/user/:id" element={<HomePage />} />
         <Route path="/users" element={<Users />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import  instance  from '../../Axios/axios';
 
 export const fetchRegistration = createAsyncThunk('auth/fetchRegistration', async (params) => {
     const { data } = await instance.post('/auth/register', params);
+    
     console.log(data)
     return data
 })
@@ -12,7 +13,9 @@ export const fetchRegistration = createAsyncThunk('auth/fetchRegistration', asyn
 
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params) => {
-    const { data } = await instance.post('/auth/login', params);
+    debugger
+    const {data} = await instance.post('/auth/login', params);
+    debugger
     return data;
 })
 

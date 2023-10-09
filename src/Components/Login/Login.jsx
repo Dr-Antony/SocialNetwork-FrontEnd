@@ -10,8 +10,8 @@ import { AlertError } from "../Alert/Alert";
 import { instance } from "../../Axios/axios";
 
 import { useNavigate, Navigate } from "react-router-dom";
-import { fetchLogin } from "../../redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { fetchLogin, userIsAuth } from "../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = (props) => {
 
@@ -20,8 +20,14 @@ const Login = (props) => {
     const [showAlert, setShowAlert] = useState(false);
     const [errArray, setErrArray] = useState([])
     const dispatch = useDispatch()
-
     const navigate = useNavigate()
+    const isAuth = useSelector(userIsAuth)
+
+
+
+
+
+
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -31,27 +37,59 @@ const Login = (props) => {
         },
         mode: 'onBlur'
     })
+
+
+
+    // const submit = async (values) => {
+    //     try {
+    //         console.log(values)
+    //         const response = await dispatch(fetchLogin(values))
+    //         debugger
+    //         setShowErrAlert(false)
+    //         if (response.payload.token) {
+    //             debugger
+    //             window.localStorage.setItem('token',response.payload.token)
+    //         }
+    //         if (!response.error) {
+    //             navigate(`/`)
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         setErrArray([...error.response.data])
+    //         setShowErrAlert(true)
+    //     }
+    // }
+
+
+
     const submit = async (values) => {
-        try {
+        
             console.log(values)
             const response = await dispatch(fetchLogin(values))
-            setShowErrAlert(false)
-            if (response.payload.token) {
+            debugger
+            if (response.payload) {
                 debugger
-                window.localStorage.setItem('token',response.payload.token)
+                setShowErrAlert(false)
+                window.localStorage.setItem('token', response.payload.token)
+                navigate(`/user/${response.payload._id}`)
             }
-            if (!response.error) {
-                navigate(`/`)
+            if (response.error && ! response.payload) {
+                debugger
+                console.log(response.error);
+                // setErrArray( [...errArray, error.response.data])
+                setShowErrAlert(true)
             }
-        } catch (error) {
-            console.log(error);
-            setErrArray([...error.response.data])
-            setShowErrAlert(true)
-        }
+        
     }
     const error = (data) => {
         console.log(data, 'This error')
     }
+
+
+    if (isAuth) {
+        return navigate('/')
+    }
+
 
     return (
         <div className={style.login_wrapper}>
@@ -66,9 +104,6 @@ const Login = (props) => {
                             isInvalid={errors?.email}
                             {...register('email', { required: 'Укажите почту!' })} />
                         <Form.Control.Feedback type='invalid'>{errors?.email?.message}</Form.Control.Feedback>
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
