@@ -25,17 +25,17 @@ import instance from "../../Axios/axios";
 
 
 import SetUserData from "./Settings/setUserData";
-
+import SetSocialNetwork from "./Settings/setSocialNetwork";
 
 
 
 const HomePage = (props) => {
     const navigate = useNavigate();
-    const {id} = useParams()
+    const { id } = useParams()
     const isAuth = useSelector(userIsAuth);
     const { data } = useSelector(state => state.auth);
-    const [show, setShow] = useState(false);
-    
+    const [showUserSettings, setShowUserSettings] = useState(false);
+    const [showSNSettings, setShowSNSettings] = useState(false);
     useEffect(() => {
         if (isAuth) {
             debugger
@@ -48,16 +48,21 @@ const HomePage = (props) => {
 
     //////////////////////////////////////////
 
-    const handleShow = () => {
-        setShow(true)
+    const handleShowUserSetting = () => {
+        setShowUserSettings(true)
     }
-    const handleClose = () => {
-        setShow(false)
+    const handleCloseUserSetting = () => {
+        setShowUserSettings(false)
     }
 
     //////////////////////////////////////////
-
-
+    const handleShowSNSettings = () => {
+        setShowSNSettings(true)
+    }
+    const handleCloseSNSettings = () => {
+        setShowSNSettings(false)
+    }
+    /////////////////////////////////////////////
 
     return (
         <div>
@@ -107,6 +112,8 @@ const HomePage = (props) => {
                                         </MDBListGroupItem>
                                     </MDBListGroup>
                                 </MDBCardBody>
+                                {Boolean(window.localStorage.getItem('token')) ? <MDBBtn onClick={handleShowSNSettings}>Settings</MDBBtn> : null}
+                                {showSNSettings ? < SetSocialNetwork show={showSNSettings} data={data} handleClose={handleCloseSNSettings} /> : null}
                             </MDBCard>
 
                         </MDBCol>
@@ -149,10 +156,11 @@ const HomePage = (props) => {
                                         </MDBCol>
                                     </MDBRow>
                                 </MDBCardBody>
+                                {Boolean(window.localStorage.getItem('token')) ? <MDBBtn onClick={handleShowUserSetting}>Settings</MDBBtn> : null}
+                                {showUserSettings ? <SetUserData data={data} show={showUserSettings} handleClose={handleCloseUserSetting} /> : null}
                             </MDBCard>
-                            
-                            {Boolean(window.localStorage.getItem('token')) ? <MDBBtn onClick={handleShow}>Settings</MDBBtn> : null}
-                            {show ? <SetUserData data={data} show={show} handleClose={handleClose} /> : null}
+
+
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
