@@ -7,7 +7,7 @@ import { Route, Routes } from "react-router-dom";
 //Компоненты
 import Navigation from "./Components/NavBar/NavbarTop";
 import HomePage from "./Components/Home/Home";
-import Users from "./Components/Users/Users";
+import UsersContainer from "./Components/Users/UsersContainer";
 import Messages from "./Components/Messages/Messages";
 import Login from "./Components/Login/Login"
 import Registration from "./Components/Register/Registration";
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/user/:id" element={<HomePage />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/users" element={<UsersContainer />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
