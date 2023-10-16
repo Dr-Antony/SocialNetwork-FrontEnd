@@ -3,12 +3,12 @@ import Pagination from 'react-bootstrap/Pagination';
 
 import style from './../UsersContainer.module.css'
 
-function PaginationComponent(props) {
+function PaginationComponent({nextPage,prevPage}) {
     return (
         <Pagination className={style.users_paginator}>
-            <Pagination.First />
-            <Pagination.Prev />
-            <Pagination.Item>{1}</Pagination.Item>
+            {/* <Pagination.First /> */}
+            <Pagination.Prev onClick={prevPage} />
+            {/* <Pagination.Item>{1}</Pagination.Item>
             <Pagination.Ellipsis />
 
             <Pagination.Item>{10}</Pagination.Item>
@@ -18,9 +18,9 @@ function PaginationComponent(props) {
             <Pagination.Item disabled>{14}</Pagination.Item>
 
             <Pagination.Ellipsis />
-            <Pagination.Item>{20}</Pagination.Item>
-            <Pagination.Next />
-            <Pagination.Last />
+            <Pagination.Item>{20}</Pagination.Item> */}
+            <Pagination.Next onClick={nextPage} />
+            {/* <Pagination.Last /> */}
         </Pagination>
     );
 }

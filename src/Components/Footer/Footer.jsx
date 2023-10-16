@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBFooter } from 'mdb-react-ui-kit';
-
+import style from './Footer.module.css'
 const Footer = (props) => {
     return (
         <MDBFooter bgColor='light' className='text-center text-lg-left'>

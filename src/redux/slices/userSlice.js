@@ -13,16 +13,12 @@ export const fetchRegistration = createAsyncThunk('auth/fetchRegistration', asyn
 
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params) => {
-    debugger
     const {data} = await instance.post('/auth/login', params);
-    debugger
     return data;
 })
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
-    debugger
     const { data } = await instance.get('/auth/me')
-    debugger
     return data;
 })
 

@@ -4,9 +4,7 @@ import instance from '../../Axios/axios';
 
 
 export const fetchGetAllUsers = createAsyncThunk('users/getAllUsers', async () => {
-    debugger
     const { data } = await instance.get('/users')
-    debugger
     return data;
 })
 
